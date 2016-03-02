@@ -1,5 +1,4 @@
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 public class NextNBC {
 
@@ -10,13 +9,14 @@ public class NextNBC {
 		String number = keyboard.nextLine(); // Read 1st line
 		String[] numbers = number.split(""); // Split based on space
 		
-		int[] bits = new int[numbers.length];
+		List<Integer> bits = new ArrayList<>();
 		
-		for(int i=0;i<numbers.length;i++)	{
-    		bits[i] = Integer.parseInt(numbers[i]);
+		for(int i = 0; i < numbers.length; i++)	{
+    		bits.add(i, Integer.parseInt(numbers[i]));
 		}
 
 	   	NBC myNbc = new NBC(bits);
+
 	   	myNbc.nextNBC(myNbc);
 	   	
 	   	System.out.println("Next nbc number is:");
@@ -25,28 +25,33 @@ public class NextNBC {
 
 	public static class NBC {
 
-		public int[] bits;
+		public List<Integer> bitsList = new ArrayList<>();
 
-		public NBC(int[] bits) {
-			this.bits = bits;
+		public NBC(List<Integer> bitsList) {
+			this.bitsList = bitsList;
 		}
 
-		public NBC nextNBC(NBC nbc) { 
-	        for(int i = bits.length - 1; i >=0; i--) {
-	        	if(this.bits[i] == 1) {
-	        		this.bits[i] = 0;
+		public NBC nextNBC(NBC nbc) {
+			this.bitsList.add(0, 0);
+	        for(int i = bitsList.size() - 1; i >= 0; i--) {
+	        	if(bitsList.get(i) == 1) {
+	        		bitsList.set(i, 0);
 	        	}
-	        	else if(this.bits[i] == 0) {
-	        		this.bits[i] = 1;
+	        	else if(bitsList.get(i) == 0) {
+	        		bitsList.set(i, 1);
 	        		break;
 	        	}
 	        }
+	        if(bitsList.get(0) == 0) {
+	        	bitsList.remove(0);
+	        }
 	        return nbc;
 	    }
+	    
 	    public void print(NBC nbc) {
 			StringBuilder strBuilder = new StringBuilder();
-			for (int i = 0; i < bits.length; i++) {
-   				strBuilder.append(Integer.toString(bits[i]));
+			for (int i = 0; i < bitsList.size(); i++) {
+   				strBuilder.append(Integer.toString(bitsList.get(i)));
 			}
 			System.out.println(strBuilder.toString());
 	    }
